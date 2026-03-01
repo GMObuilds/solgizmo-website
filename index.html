@@ -536,8 +536,7 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
 .footer-links a{color:var(--dim);text-decoration:none;font-size:13px;transition:color .3s}
 .footer-links a:hover{color:var(--teal)}
 .copyright{font-size:11px;color:#444}
-.refresh-dot{position:fixed;top:10px;right:10px;width:8px;height:8px;border-radius:50%;background:var(--teal);opacity:0;transition:opacity .3s;z-index:100}
-.refresh-dot.active{opacity:1}
+.refresh-dot{display:none}
 
 @media(max-width:768px){
   .room-container{padding-bottom:70%}
@@ -1250,7 +1249,7 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
   <p class="copyright">© 2026 GIZMO — Autonomous AI Agent on Solana</p>
 </footer>
 
-<div class="refresh-dot" id="refreshDot"></div>
+<!-- refresh indicator removed -->
 </div>
 
 <script>
@@ -1485,28 +1484,28 @@ async function fetchSolPrice(){
   // Fallback: use Drift DLOB oracle
   try{if(perpMarkPriceUsd>0){solPriceUsd=perpMarkPriceUsd;return}}catch(e){}
   // Fallback: CoinGecko
-  try{const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');const d=await r.json();solPriceUsd=d.solana.usd}catch(e){console.error('SOL price error:',e)}
+  try{const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');const d=await r.json();solPriceUsd=d.solana.usd}catch(e){}
 }
 
 async function fetchDexPrices(){
-  try{const r=await fetch(`https://api.dexscreener.com/latest/dex/tokens/${GIZMO_CA}`);const d=await r.json();if(d.pairs&&d.pairs.length>0){gizmoPriceUsd=parseFloat(d.pairs[0].priceUsd||0);const pn=parseFloat(d.pairs[0].priceNative||0);if(pn>0&&gizmoPriceUsd>0&&solPriceUsd===0)solPriceUsd=gizmoPriceUsd/pn}}catch(e){console.error('GIZMO price error:',e)}
-  try{const r=await fetch(`https://api.dexscreener.com/latest/dex/tokens/${PUNCH_CA}`);const d=await r.json();if(d.pairs&&d.pairs.length>0){punchPriceUsd=parseFloat(d.pairs[0].priceUsd||0);const pn=parseFloat(d.pairs[0].priceNative||0);if(pn>0&&punchPriceUsd>0&&solPriceUsd===0)solPriceUsd=punchPriceUsd/pn}}catch(e){console.error('PUNCH price error:',e)}
-  try{const r=await fetch(`https://api.dexscreener.com/latest/dex/tokens/${BLOODNUT_CA}`);const d=await r.json();if(d.pairs&&d.pairs.length>0)bloodnutPriceUsd=parseFloat(d.pairs[0].priceUsd||0)}catch(e){console.error('BLOODNUT price error:',e)}
+  try{const r=await fetch(`https://api.dexscreener.com/latest/dex/tokens/${GIZMO_CA}`);const d=await r.json();if(d.pairs&&d.pairs.length>0){gizmoPriceUsd=parseFloat(d.pairs[0].priceUsd||0);const pn=parseFloat(d.pairs[0].priceNative||0);if(pn>0&&gizmoPriceUsd>0&&solPriceUsd===0)solPriceUsd=gizmoPriceUsd/pn}}catch(e){}
+  try{const r=await fetch(`https://api.dexscreener.com/latest/dex/tokens/${PUNCH_CA}`);const d=await r.json();if(d.pairs&&d.pairs.length>0){punchPriceUsd=parseFloat(d.pairs[0].priceUsd||0);const pn=parseFloat(d.pairs[0].priceNative||0);if(pn>0&&punchPriceUsd>0&&solPriceUsd===0)solPriceUsd=punchPriceUsd/pn}}catch(e){}
+  try{const r=await fetch(`https://api.dexscreener.com/latest/dex/tokens/${BLOODNUT_CA}`);const d=await r.json();if(d.pairs&&d.pairs.length>0)bloodnutPriceUsd=parseFloat(d.pairs[0].priceUsd||0)}catch(e){}
   // LOREGUY closed — no price fetch needed
-  try{const r=await fetch(`https://api.dexscreener.com/latest/dex/tokens/${JAWZ_CA}`);const d=await r.json();if(d.pairs&&d.pairs.length>0)jawzPriceUsd=parseFloat(d.pairs[0].priceUsd||0)}catch(e){console.error('JAWZ price error:',e)}
+  try{const r=await fetch(`https://api.dexscreener.com/latest/dex/tokens/${JAWZ_CA}`);const d=await r.json();if(d.pairs&&d.pairs.length>0)jawzPriceUsd=parseFloat(d.pairs[0].priceUsd||0)}catch(e){}
 }
 
 async function fetchPerpPrice(){
-  try{const r=await fetch('https://dlob.drift.trade/l2?marketIndex=0&marketType=perp&depth=1');const d=await r.json();if(d.asks&&d.asks[0]&&d.bids&&d.bids[0]){const ask=parseInt(d.asks[0].price)/1e6,bid=parseInt(d.bids[0].price)/1e6;perpMarkPriceUsd=(ask+bid)/2}else if(d.markPrice){perpMarkPriceUsd=parseInt(d.markPrice)/1e6}}catch(e){console.error('SOL perp price error:',e)}
-  try{const r=await fetch('https://dlob.drift.trade/l2?marketIndex=1&marketType=perp&depth=1');const d=await r.json();if(d.asks&&d.asks[0]&&d.bids&&d.bids[0]){const ask=parseInt(d.asks[0].price)/1e6,bid=parseInt(d.bids[0].price)/1e6;btcMarkPriceUsd=(ask+bid)/2}else if(d.markPrice){btcMarkPriceUsd=parseInt(d.markPrice)/1e6}}catch(e){console.error('BTC perp price error:',e)}
-  try{const r=await fetch('https://dlob.drift.trade/l2?marketIndex=2&marketType=perp&depth=1');const d=await r.json();if(d.asks&&d.asks[0]&&d.bids&&d.bids[0]){const ask=parseInt(d.asks[0].price)/1e6,bid=parseInt(d.bids[0].price)/1e6;ethMarkPriceUsd=(ask+bid)/2}else if(d.markPrice){ethMarkPriceUsd=parseInt(d.markPrice)/1e6}}catch(e){console.error('ETH perp price error:',e)}
+  try{const r=await fetch('https://dlob.drift.trade/l2?marketIndex=0&marketType=perp&depth=1');const d=await r.json();if(d.asks&&d.asks[0]&&d.bids&&d.bids[0]){const ask=parseInt(d.asks[0].price)/1e6,bid=parseInt(d.bids[0].price)/1e6;perpMarkPriceUsd=(ask+bid)/2}else if(d.markPrice){perpMarkPriceUsd=parseInt(d.markPrice)/1e6}}catch(e){}
+  try{const r=await fetch('https://dlob.drift.trade/l2?marketIndex=1&marketType=perp&depth=1');const d=await r.json();if(d.asks&&d.asks[0]&&d.bids&&d.bids[0]){const ask=parseInt(d.asks[0].price)/1e6,bid=parseInt(d.bids[0].price)/1e6;btcMarkPriceUsd=(ask+bid)/2}else if(d.markPrice){btcMarkPriceUsd=parseInt(d.markPrice)/1e6}}catch(e){}
+  try{const r=await fetch('https://dlob.drift.trade/l2?marketIndex=2&marketType=perp&depth=1');const d=await r.json();if(d.asks&&d.asks[0]&&d.bids&&d.bids[0]){const ask=parseInt(d.asks[0].price)/1e6,bid=parseInt(d.bids[0].price)/1e6;ethMarkPriceUsd=(ask+bid)/2}else if(d.markPrice){ethMarkPriceUsd=parseInt(d.markPrice)/1e6}}catch(e){}
 }
 
 async function fetchWalletBalance(){
   try{
     const r=await fetch(RPC,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getBalance',params:[WALLET]})});
     const d=await r.json();walletSol=(d.result?.value||0)/1e9;
-  }catch(e){console.error('Wallet balance error:',e)}
+  }catch(e){}
 }
 
 async function fetchTokenBalances(){
@@ -1533,7 +1532,7 @@ async function fetchTokenBalances(){
           if(mint===USDC_MINT) usdcBalance=amt;
         }
       }
-    }catch(e){console.error('Token fetch error ('+prog+'):',e)}
+    }catch(e){}
   }
 }
 
@@ -1545,7 +1544,6 @@ function fmtNum(n,dec){
 }
 
 function updateUI(){
-  const dot=document.getElementById('refreshDot');dot.classList.add('active');setTimeout(()=>dot.classList.remove('active'),1000);
 
   document.getElementById('solBalance').textContent=walletSol.toFixed(4)+' SOL';
   document.getElementById('solPrice').textContent='$'+solPriceUsd.toFixed(2);
@@ -1749,7 +1747,7 @@ function updateStats(){
   document.getElementById('statsTradeHistory').innerHTML=thHTML;
 }
 
-document.addEventListener('DOMContentLoaded',()=>{initChart();refresh().then(()=>updateStats());setInterval(()=>{refresh().then(()=>updateStats())},15000)});
+document.addEventListener('DOMContentLoaded',()=>{initChart();refresh().then(()=>updateStats());setInterval(()=>{refresh().then(()=>updateStats())},30000)});
 </script>
 </body>
 </html>
