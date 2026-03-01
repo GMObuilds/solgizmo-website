@@ -42,7 +42,7 @@ log() {
 # Function to check if website is live
 check_website_live() {
     log "🌐 Checking if solgizmo.com is live..."
-    if curl -s --head "$WEBSITE_URL" | head -n 1 | grep -q "200 OK"; then
+    if curl -s --head "$WEBSITE_URL" | head -n 1 | grep -q "200"; then
         log "${GREEN}✅ Website is LIVE and responding${NC}"
         return 0
     else
