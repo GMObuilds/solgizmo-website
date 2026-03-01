@@ -538,6 +538,20 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
 .copyright{font-size:11px;color:#444}
 .refresh-dot{display:none}
 
+/* Force hide any polling mode indicators */
+*[data-polling],
+*[class*="polling"],
+*[id*="polling"],
+.polling-mode,
+.polling-indicator,
+.poll-status {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
 @media(max-width:768px){
   .room-container{padding-bottom:70%}
   .neon-gizmo{font-size:12px!important}
@@ -1747,7 +1761,39 @@ function updateStats(){
   document.getElementById('statsTradeHistory').innerHTML=thHTML;
 }
 
-document.addEventListener('DOMContentLoaded',()=>{initChart();refresh().then(()=>updateStats());setInterval(()=>{refresh().then(()=>updateStats())},30000)});
+// Anti-polling mode cleanup function
+function removePollingModeElements() {
+  const pollElems = document.querySelectorAll('*');
+  for (const el of pollElems) {
+    const text = el.textContent?.toLowerCase() || '';
+    if (text.includes('polling mode') || text.includes('polling') && text.includes('mode')) {
+      el.style.display = 'none';
+      el.style.visibility = 'hidden';
+      el.style.opacity = '0';
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      el.remove();
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  initChart();
+  refresh().then(()=>updateStats());
+  
+  // Remove any polling mode elements on load
+  removePollingModeElements();
+  
+  // Monitor for dynamically added polling mode elements
+  const observer = new MutationObserver(() => removePollingModeElements());
+  observer.observe(document.body, { childList: true, subtree: true });
+  
+  setInterval(()=>{
+    refresh().then(()=>updateStats());
+    // Extra cleanup on each refresh
+    removePollingModeElements();
+  }, 30000);
+});
 </script>
 </body>
 </html>
