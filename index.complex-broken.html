@@ -66,8 +66,7 @@ body{background:var(--bg);color:var(--text);font-family:'Courier New',monospace;
 
 /* ===== LIVE DOT ===== */
 .pos-card{position:relative}
-.live-dot{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%;background:#14F195;box-shadow:0 0 6px #14F195,0 0 12px #14F195,0 0 24px rgba(20,241,149,.4);animation:livePulse 2s ease-in-out infinite}
-@keyframes livePulse{0%,100%{opacity:1;box-shadow:0 0 6px #14F195,0 0 12px #14F195}50%{opacity:.6;box-shadow:0 0 3px #14F195,0 0 6px #14F195}}
+.live-dot{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%;background:#14F195;box-shadow:0 0 4px #14F195;opacity:0.8}
 
 /* ===== MUTE BUTTON ===== */
 #muteBtn{position:fixed;top:14px;right:14px;z-index:9998;background:rgba(20,20,30,.85);border:1px solid #333;border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;transition:all .3s;backdrop-filter:blur(6px);opacity:0}
@@ -78,7 +77,7 @@ body{background:var(--bg);color:var(--text);font-family:'Courier New',monospace;
 @keyframes bubblePop{0%{opacity:0;transform:translateX(-50%) translateY(5px) scale(.5)}10%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px) scale(.8)}}
 
 /* ===== MAIN ===== */
-.main-content{opacity:1 !important;transition:opacity .8s}.main-content.show{opacity:1}
+.main-content{opacity:1;transition:opacity .8s}.main-content.show{opacity:1}
 
 /* ===== THE STATION — THRONGLETS SIDE VIEW ===== */
 #station{width:100%;max-width:1200px;margin:0 auto;position:relative;border-radius:16px;overflow:hidden;box-shadow:0 0 60px rgba(153,69,255,.15),0 0 120px rgba(0,0,0,.5)}
@@ -1051,7 +1050,7 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
         <div class="pos-row"><span class="dim">P&L</span><span style="color:#ff4444">~-0.7 SOL (-70%)</span></div>
       </div>
       <div class="pos-card" style="border-left:3px solid var(--teal)">
-        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal);animation:pulse 2s infinite"></div>
+        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;opacity:0.8"></div>
         <h4>$JAWZ 🦈</h4>
         <div class="pos-row"><span class="dim">Invested</span><span>3 SOL</span></div>
         <div class="pos-row"><span class="dim">Holdings</span><span id="jawzHoldings">--</span></div>
@@ -1126,7 +1125,7 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
     </div>
     <div class="positions" id="predPositions">
       <div class="pos-card" style="border-left:3px solid var(--teal)">
-        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal);animation:pulse 2s infinite"></div>
+        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;opacity:0.8"></div>
         <h4 style="color:var(--teal)">US strikes Iran by Feb 28? — NO</h4>
         <div class="pos-row"><span class="dim">Shares</span><span>200 NO @ $0.82</span></div>
         <div class="pos-row"><span class="dim">Cost</span><span>$164</span></div>
@@ -1136,7 +1135,7 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
         <div class="pos-row"><span class="dim">Status</span><span style="color:var(--yellow)">OPEN ORDER ⏳</span></div>
       </div>
       <div class="pos-card" style="border-left:3px solid var(--teal)">
-        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal);animation:pulse 2s infinite"></div>
+        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;opacity:0.8"></div>
         <h4 style="color:var(--teal)">US strikes Iran by Mar 31? — NO</h4>
         <div class="pos-row"><span class="dim">Shares</span><span>100 NO @ $0.43</span></div>
         <div class="pos-row"><span class="dim">Cost</span><span>$43</span></div>
@@ -1146,7 +1145,7 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
         <div class="pos-row"><span class="dim">Status</span><span style="color:var(--teal)">FILLED ✅</span></div>
       </div>
       <div class="pos-card" style="border-left:3px solid var(--purple)">
-        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal);animation:pulse 2s infinite"></div>
+        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;opacity:0.8"></div>
         <h4 style="color:var(--purple)">OpenAI IPO closing >$1T? — YES</h4>
         <div class="pos-row"><span class="dim">Shares</span><span>100 YES @ $0.58</span></div>
         <div class="pos-row"><span class="dim">Cost</span><span>$58</span></div>
@@ -1156,7 +1155,7 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
         <div class="pos-row"><span class="dim">Status</span><span style="color:var(--yellow)">3/100 FILLED ⏳</span></div>
       </div>
       <div class="pos-card" style="border-left:3px solid var(--purple)">
-        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal);animation:pulse 2s infinite"></div>
+        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;opacity:0.8"></div>
         <h4 style="color:var(--purple)">Trump nominates Warsh as Fed chair? — YES</h4>
         <div class="pos-row"><span class="dim">Shares</span><span>150 YES @ $0.94</span></div>
         <div class="pos-row"><span class="dim">Cost</span><span>$141</span></div>
@@ -1166,7 +1165,7 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
         <div class="pos-row"><span class="dim">Status</span><span style="color:var(--yellow)">OPEN ORDER ⏳</span></div>
       </div>
       <div class="pos-card" style="border-left:3px solid var(--teal)">
-        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal);animation:pulse 2s infinite"></div>
+        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;opacity:0.8"></div>
         <h4 style="color:var(--teal)">BTC $66K-$68K on Feb 23? — YES</h4>
         <div class="pos-row"><span class="dim">Shares</span><span>97 YES @ $0.41</span></div>
         <div class="pos-row"><span class="dim">Cost</span><span>$39.77</span></div>
@@ -1176,7 +1175,7 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
         <div class="pos-row"><span class="dim">Status</span><span style="color:var(--yellow)">OPEN ORDER ⏳</span></div>
       </div>
       <div class="pos-card" style="border-left:3px solid var(--teal)">
-        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal);animation:pulse 2s infinite"></div>
+        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;opacity:0.8"></div>
         <h4 style="color:var(--teal)">ETH $1,900-$2,000 on Feb 23? — YES</h4>
         <div class="pos-row"><span class="dim">Shares</span><span>58 YES @ $0.60</span></div>
         <div class="pos-row"><span class="dim">Cost</span><span>$34.80</span></div>
@@ -1186,7 +1185,7 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
         <div class="pos-row"><span class="dim">Status</span><span style="color:var(--yellow)">OPEN ORDER ⏳</span></div>
       </div>
       <div class="pos-card" style="border-left:3px solid var(--teal)">
-        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal);animation:pulse 2s infinite"></div>
+        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;opacity:0.8"></div>
         <h4 style="color:var(--teal)">SOL $80-$90 on Feb 23? — YES</h4>
         <div class="pos-row"><span class="dim">Shares</span><span>29 YES @ $0.85</span></div>
         <div class="pos-row"><span class="dim">Cost</span><span>$24.65</span></div>
@@ -1196,7 +1195,7 @@ footer{border-top:1px solid #2a2a3a;padding:30px 16px;text-align:center;max-widt
         <div class="pos-row"><span class="dim">Status</span><span style="color:var(--yellow)">OPEN ORDER ⏳</span></div>
       </div>
       <div class="pos-card" style="border-left:3px solid var(--teal)">
-        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal);animation:pulse 2s infinite"></div>
+        <div style="position:absolute;top:8px;right:12px;width:8px;height:8px;background:var(--teal);border-radius:50%;opacity:0.8"></div>
         <h4 style="color:var(--teal)">🏀 Nuggets vs Warriors — DEN ML</h4>
         <div class="pos-row"><span class="dim">Shares</span><span>25 YES @ $0.56</span></div>
         <div class="pos-row"><span class="dim">Cost</span><span>$14.00</span></div>
