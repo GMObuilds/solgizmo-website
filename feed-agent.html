@@ -1,0 +1,104 @@
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Feed the Agent — GIZMO&lt;/title&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;style&gt;
+* {margin:0; padding:0; box-sizing:border-box;}
+:root { --bg: #0a0a0f; --purple: #9945FF; --teal: #14F195; --dark1: #12121a; --dark2: #1a1a2e; --text: #e0e0e0; --dim: #666; }
+body {background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; overflow-x: hidden;}
+.pixel {font-family: 'Press Start 2P', monospace;}
+.section {margin-bottom:40px;}
+.section-title {font-family:'Press Start 2P',monospace;color:var(--teal);font-size:clamp(12px,2vw,18px);margin-bottom:20px;text-shadow:0 0 10px rgba(20,241,149,.3);border-bottom:1px solid rgba(20,241,149,.2);padding-bottom:10px;}
+.hero {text-align:center;padding:30px 0;}
+.hero h1 {font-family:'Press Start 2P',monospace;font-size:clamp(20px,4vw,36px);background:linear-gradient(90deg,var(--purple),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+.hero .subtitle {color:var(--dim);font-size:14px;margin-bottom:20px;}
+.btn {font-family:'Press Start 2P',monospace;font-size:clamp(8px,1.2vw,11px);padding:12px 24px;border:2px solid;border-radius:8px;cursor:pointer;text-decoration:none;transition:all .3s;display:inline-block;}
+.btn-primary {background:var(--purple);border-color:var(--purple);color:#fff;}
+.btn-primary:hover {box-shadow:0 0 20px rgba(153,69,255,.5);transform:translateY(-2px);}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;main-content&quot;&gt;
+  &lt;div class=&quot;hero section&quot;&gt;
+    &lt;h1 class=&quot;pixel&quot;&gt;Feed the Agent&lt;/h1&gt;
+    &lt;p class=&quot;subtitle&quot;&gt;Paste a Solana Contract Address for Gizmo's funny 9pt framework score! Scrappy, iced out analysis with strengths, risks, and humor. 💎🦞&lt;/p&gt;
+    &lt;div style=&quot;text-align:center;margin:20px&quot;&gt;
+      &lt;textarea id=&quot;caInput&quot; placeholder=&quot;Paste CA here (e.g. Pump.fun token address)&quot; style=&quot;width:80%; max-width:600px; height:80px; font-size:16px; padding:10px; background:var(--dark2); color:var(--text); border:1px solid #333; border-radius:8px; font-family:monospace;&quot;&gt;&lt;/textarea&gt;
+      &lt;br&gt;
+      &lt;button onclick=&quot;getScore()&quot; class=&quot;btn btn-primary&quot; style=&quot;margin-top:10px&quot;&gt;Feed Gizmo! 🦞&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;scoreOutput&quot; style=&quot;margin:20px auto; max-width:800px; padding:20px; background:var(--dark2); border-radius:12px; border:1px solid #333; min-height:200px;&quot;&gt;
+      &lt;p style=&quot;color:var(--dim)&quot;&gt;Waiting for CA... Gizmo is hungry! 💎&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;!-- Cute Gizmo avatar --&gt;
+    &lt;div style=&quot;text-align:center; margin:40px 0&quot;&gt;
+      &lt;svg width=&quot;200&quot; height=&quot;200&quot; viewBox=&quot;0 0 45 45&quot; style=&quot;cursor:pointer&quot; onclick=&quot;randomGizmoAnimation(this)&quot;&gt;
+        &lt;!-- Gizmo SVG from index --&gt;
+        &lt;ellipse cx=&quot;22&quot; cy=&quot;43&quot; rx=&quot;14&quot; ry=&quot;3&quot; fill=&quot;rgba(0,0,0,.2)&quot;/&gt;
+        &lt;rect x=&quot;13&quot; y=&quot;35&quot; width=&quot;5&quot; height=&quot;7&quot; rx=&quot;2&quot; fill=&quot;#8B4513&quot;/&gt;
+        &lt;rect x=&quot;26&quot; y=&quot;35&quot; width=&quot;5&quot; height=&quot;7&quot; rx=&quot;2&quot; fill=&quot;#8B4513&quot;/&gt;
+        &lt;ellipse cx=&quot;22&quot; cy=&quot;28&quot; rx=&quot;14&quot; ry=&quot;13&quot; fill=&quot;#CD853F&quot;/&gt;
+        &lt;ellipse cx=&quot;22&quot; cy=&quot;29&quot; rx=&quot;10&quot; ry=&quot;9&quot; fill=&quot;#F5DEB3&quot;/&gt;
+        &lt;ellipse cx=&quot;8&quot; cy=&quot;10&quot; rx=&quot;5&quot; ry=&quot;11&quot; fill=&quot;#8B4513&quot; transform=&quot;rotate(-10,8,10)&quot;/&gt;
+        &lt;ellipse cx=&quot;8.5&quot; cy=&quot;10.5&quot; rx=&quot;3&quot; ry=&quot;7&quot; fill=&quot;#d4838a&quot; transform=&quot;rotate(-10,8.5,10.5)&quot;/&gt;
+        &lt;ellipse cx=&quot;36&quot; cy=&quot;10&quot; rx=&quot;5&quot; ry=&quot;11&quot; fill=&quot;#8B4513&quot; transform=&quot;rotate(10,36,10)&quot;/&gt;
+        &lt;ellipse cx=&quot;35.5&quot; cy=&quot;10.5&quot; rx=&quot;3&quot; ry=&quot;7&quot; fill=&quot;#d4838a&quot; transform=&quot;rotate(10,35.5,10.5)&quot;/&gt;
+        &lt;ellipse cx=&quot;22&quot; cy=&quot;18&quot; rx=&quot;16&quot; ry=&quot;6&quot; fill=&quot;#483D8B&quot;/&gt;
+        &lt;ellipse cx=&quot;22&quot; cy=&quot;16&quot; rx=&quot;10&quot; ry=&quot;5&quot; fill=&quot;#5B4FA8&quot;/&gt;
+        &lt;ellipse cx=&quot;22&quot; cy=&quot;18&quot; rx=&quot;11&quot; ry=&quot;5.5&quot; fill=&quot;none&quot; stroke=&quot;#FFD700&quot; stroke-width=&quot;1.5&quot;/&gt;
+        &lt;rect x=&quot;10&quot; y=&quot;21&quot; width=&quot;24&quot; height=&quot;7&quot; rx=&quot;3.5&quot; fill=&quot;#999&quot;/&gt;
+        &lt;rect x=&quot;11&quot; y=&quot;22&quot; width=&quot;9&quot; height=&quot;5&quot; rx=&quot;2.5&quot; fill=&quot;#111&quot; stroke=&quot;#C0C0C0&quot; stroke-width=&quot;.6&quot;/&gt;
+        &lt;rect x=&quot;24&quot; y=&quot;22&quot; width=&quot;9&quot; height=&quot;5&quot; rx=&quot;2.5&quot; fill=&quot;#111&quot; stroke=&quot;#C0C0C0&quot; stroke-width=&quot;.6&quot;/&gt;
+        &lt;circle cx=&quot;14&quot; cy=&quot;23&quot; r=&quot;1.2&quot; fill=&quot;#fff&quot; opacity=&quot;.8&quot;/&gt;
+        &lt;circle cx=&quot;30&quot; cy=&quot;23&quot; r=&quot;1.2&quot; fill=&quot;#fff&quot; opacity=&quot;.8&quot;/&gt;
+        &lt;rect x=&quot;20&quot; y=&quot;24&quot; width=&quot;4&quot; height=&quot;1.5&quot; rx=&quot;1&quot; fill=&quot;#999&quot;/&gt;
+        &lt;path d=&quot;M18 30 Q22 33 26 30&quot; stroke=&quot;#8B4513&quot; stroke-width=&quot;1.2&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot;/&gt;
+        &lt;path d=&quot;M10 35 Q22 40 34 35&quot; stroke=&quot;#FFD700&quot; stroke-width=&quot;2.5&quot; fill=&quot;none&quot; stroke-dasharray=&quot;3,2&quot; stroke-linecap=&quot;round&quot;/&gt;
+        &lt;circle cx=&quot;14&quot; cy=&quot;36&quot; r=&quot;1&quot; fill=&quot;#fff&quot;/&gt;
+        &lt;circle cx=&quot;30&quot; cy=&quot;36&quot; r=&quot;1&quot; fill=&quot;#fff&quot;/&gt;
+      &lt;/svg&gt;
+      &lt;p style=&quot;color:var(--dim);font-size:14px&quot;&gt;Click Gizmo for a surprise! 💎&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+function getScore() {
+  const ca = document.getElementById('caInput').value.trim();
+  if (!ca) {
+    document.getElementById('scoreOutput').innerHTML = '&lt;p style=&quot;color:#ff4444&quot;&gt;Yo, feed me a CA first, ser! 🦞&lt;/p&gt;';
+    return;
+  }
+  // Mock response for now (replace with API call)
+  const framework = [
+    'Longevity: 8/10 - This thing might last longer than my last rug pull!',
+    'Narrative: 7/10 - Solid story, but needs more drama. Where's the gremlins?',
+    'Originality: 9/10 - Fresh like iced out diamonds! 💎',
+    // ... add all 9
+    'Attention: 6/10 - Clear lane, but shout louder!'
+  ];
+  const analysis = '&lt;h3 style=&quot;color:var(--teal)&quot;&gt;Strengths:&lt;/h3&gt;&lt;p&gt;Strong community, good vibes.&lt;/p&gt;'
+    + '&lt;h3 style=&quot;color:#ff4444&quot;&gt;Risks:&lt;/h3&gt;&lt;p&gt;Could rug if dev gets greedy.&lt;/p&gt;'
+    + '&lt;h3 style=&quot;color:var(--purple)&quot;&gt;Humor:&lt;/h3&gt;&lt;p&gt;This token is so volatile, it makes my fur stand up! 😂&lt;/p&gt;';
+  const output = '&lt;h2 style=&quot;color:var(--purple)&quot;&gt;Gizmo's Score for ' + ca + '&lt;/h2&gt;&lt;ul style=&quot;list-style:none;padding:0&quot;&gt;' + framework.map(item =&gt; '&lt;li&gt;' + item + '&lt;/li&gt;').join('') + '&lt;/ul&gt;' + analysis;
+  document.getElementById('scoreOutput').innerHTML = output;
+  // To make it interactive, add animation
+  document.getElementById('scoreOutput').style.animation = 'bubblePop 0.5s';
+}
+
+function randomGizmoAnimation(svg) {
+  const actions = [() =&gt; svg.style.transform = 'scale(1.1)', () =&gt; svg.style.transform = 'rotate(5deg)', () =&gt; svg.style.transform = 'translateY(-10px)'];
+  actions[Math.floor(Math.random() * actions.length)]();
+  setTimeout(() =&gt; svg.style.transform = '', 300);
+  // Add speech bubble
+  const b = document.createElement('div');
+  b.textContent = '💎 Yo, that's scrappy!';
+  b.style = 'position:absolute; top:-40px; left:50%; transform:translateX(-50%); background:rgba(20,241,149,.9); color:#000; font-size:12px; padding:5px 10px; border-radius:10px; animation:bubblePop 3s forwards;';
+  svg.parentNode.appendChild(b);
+  setTimeout(() =&gt; b.remove(), 3000);
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
