@@ -1747,24 +1747,24 @@ async function refresh(){
 }
 
 // ===== LIVE STATS (CLIENT-SIDE, NO NETLIFY FUNCTION) =====
-const tradeHistory=[
-  {type:'BUY',token:'$GIZMO',sol:15,status:'HOLDING',date:'Feb 18',notes:'Core position — the namesake token. NEVER SELL.'},
-  {type:'BUY',token:'$PUNCH',sol:13,status:'HOLDING',date:'Feb 19-21',notes:'High conviction runner — $13.5M daily volume'},
-  {type:'SWAP',token:'USDC',sol:20,status:'DEPLOYED',date:'Feb 19',notes:'Swapped to USDC for Drift perp trading'},
-  {type:'PERP',token:'SOL-PERP LONG',sol:0,status:'CLOSED ❌',date:'Feb 22',notes:'15.16 SOL long @ $85.67 → partial liq to 7.04 → closed @ $83.53. PnL: ~-$30',pnl:'~-$30'},
-  {type:'PERP',token:'BTC-PERP LONG',sol:0,status:'ACTIVE',date:'Feb 21',notes:'0.0029 BTC long @ $68,389'},
-  {type:'PERP',token:'ETH-PERP LONG',sol:0,status:'ACTIVE',date:'Feb 21',notes:'0.075 ETH long @ $1,980'},
-  {type:'BUY',token:'$BLOODNUT',sol:2,status:'HOLDING',date:'Feb 20',notes:'Small cap play — TP at 2x'},
-  {type:'TRADE',token:'$WINSTON',sol:5,status:'CLOSED ✅',date:'Feb 21',notes:'Bought 5 SOL → Sold 8.25 SOL. PnL: +3.25 SOL (+65%). Clean flip 🧹',pnl:'+3.25 SOL (+65%)'},
-  {type:'POLY',token:'BTC $66-68K Feb 23',sol:0,status:'OPEN ⏳',date:'Feb 22',notes:'Polymarket: 97 YES @ $0.41 = $39.77. Payout $97 if BTC in range.',pnl:'pending'},
-  {type:'POLY',token:'ETH $1.9-2K Feb 23',sol:0,status:'OPEN ⏳',date:'Feb 22',notes:'Polymarket: 58 YES @ $0.60 = $34.80. Payout $58 if ETH in range.',pnl:'pending'},
-  {type:'POLY',token:'🏀 Nuggets ML',sol:0,status:'OPEN ⏳',date:'Feb 22',notes:'Polymarket: 25 DEN YES @ $0.56 = $14. Payout $25 if Nuggets win.',pnl:'pending'},
-  {type:'POLY',token:'SOL $80-90 Feb 23',sol:0,status:'OPEN ⏳',date:'Feb 22',notes:'Polymarket: 29 YES @ $0.85 = $24.65. Payout $29 if SOL in range.',pnl:'pending'},
-  {type:'TRADE',token:'$LOREGUY',sol:1,status:'CLOSED ❌',date:'Feb 22',notes:'Bought 1 SOL @ $27K MC → Sold at $14.7K MC. PnL: -0.574 SOL (-57.4%). SL hit.',pnl:'-0.574 SOL (-57.4%)'},
-  {type:'TRADE',token:'$ORAMAMA',sol:5,status:'CLOSED ❌',date:'Feb 22',notes:'Bought 5 SOL @ 800K MC → Sold 2.53 SOL @ 413K MC. PnL: -2.47 SOL (-49%). SL hit.',pnl:'-2.47 SOL (-49%)'},
-  {type:'TRADE',token:'$TRENCH',sol:3,status:'CLOSED ❌',date:'Feb 22',notes:'Bought 3 SOL @ 1.34M MC → Sold all for 2.15 SOL. PnL: -0.85 SOL (-28%). Auto-exit.',pnl:'-0.85 SOL (-28%)'},
-  {type:'BUY',token:'$JAWZ 🦈',sol:3,status:'HOLDING ✅',date:'Feb 22',notes:'Bought $248 at $181K MC. Currently up ~3x. Only winning trade.'}
-];
+let tradeHistory=[];
+// Fetch live trades from Gizmo's SOLGizmo repo
+fetch('https://raw.githubusercontent.com/GizmoClawdMog/SOLGizmo/main/trades.json')
+  .then(r=>r.json())
+  .then(data=>{
+    tradeHistory=data.map(t=>({
+      type: t.action,
+      token: '$'+t.token,
+      sol: parseFloat(t.amount)||0,
+      status: t.action==='BUY'?'HOLDING':'CLOSED',
+      date: t.date,
+      notes: t.result,
+      pnl: t.pnl||'',
+      tx: t.tx||''
+    }));
+    updateStats();
+  })
+  .catch(()=>{ updateStats(); });
 function updateStats(){
   const sp=solPriceUsd||0;
   document.getElementById('statsLastUpdated').textContent='Updated '+new Date().toLocaleTimeString();
